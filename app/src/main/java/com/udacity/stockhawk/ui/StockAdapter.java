@@ -4,6 +4,7 @@ package com.udacity.stockhawk.ui;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import butterknife.ButterKnife;
 
 class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
 
+    private final String LOG_TAG = this.getClass().getSimpleName();
     final private Context context;
     final private DecimalFormat dollarFormatWithPlus;
     final private DecimalFormat dollarFormat;
@@ -129,6 +131,8 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
             int adapterPosition = getAdapterPosition();
             cursor.moveToPosition(adapterPosition);
             int symbolColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_SYMBOL);
+            //TODO: launch the detail activity to display the price history for the selected stock.
+            Log.i(LOG_TAG,"******clicked on item"+ cursor.getString(symbolColumn) );
             clickHandler.onClick(cursor.getString(symbolColumn));
 
         }
