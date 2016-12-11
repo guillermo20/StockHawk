@@ -15,7 +15,8 @@ public class StockHawkApp extends Application {
         if (BuildConfig.DEBUG) {
             Timber.uprootAll();
             Timber.plant(new Timber.DebugTree());
+            Stetho.initializeWithDefaults(this);
         }
-        Stetho.initializeWithDefaults(this);
+
     }
 }
