@@ -2,7 +2,9 @@
 
 * Starting to analise the initial state of the app against the UX review provided from udacity
     * the first issue is for visually impaired users, must fix.
-    * second, mark the necessary strings on the values resource file for translation
+    * second, mark the necessary strings on the values resource file for translation and apply
+        mirroring to the layouts.
+
     * display a detail activity so the users can see the value over time of a selected stock
        this might require the use of new library to draw graphs.
 
