@@ -5,6 +5,7 @@ import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -164,15 +165,19 @@ public class StockDetailActivity extends AppCompatActivity implements SeekBar.On
         //mv.setChartView(mChart); // For bounds control
         mChart.setMarker(mv); // Set the marker to the chart*/
 
-        setData(12, 50);
+        setData(11, 100);
 
         // setting data
         mSeekBarY.setProgress(50);
-        mSeekBarX.setProgress(12);
+        mSeekBarX.setProgress(11);
 
-        mSeekBarY.setOnSeekBarChangeListener(this);
-        mSeekBarX.setOnSeekBarChangeListener(this);
+        //mSeekBarY.setOnSeekBarChangeListener(this);
+        //mSeekBarX.setOnSeekBarChangeListener(this);
 
+        mSeekBarY.setVisibility(View.INVISIBLE);
+        mSeekBarX.setVisibility(View.INVISIBLE);
+        tvX.setVisibility(View.INVISIBLE);
+        tvY.setVisibility(View.INVISIBLE);
         // mChart.setDrawLegend(false);
     }
 
@@ -252,7 +257,7 @@ public class StockDetailActivity extends AppCompatActivity implements SeekBar.On
 
         tvX.setText("" + (mSeekBarX.getProgress() + 2));
         tvY.setText("" + (mSeekBarY.getProgress()));
-
+        Log.i(LOG_TAG,"************ seekbar changed ****************");
         setData(mSeekBarX.getProgress() + 1 , mSeekBarY.getProgress());
         mChart.invalidate();
     }
@@ -268,7 +273,7 @@ public class StockDetailActivity extends AppCompatActivity implements SeekBar.On
     }
 
     private void setData(int count, float range) {
-
+        Log.i(LOG_TAG," ****** count ["+count+"] - range ["+range+"]***** ");
         float start = 0f;
 
         mChart.getXAxis().setAxisMinimum(start);
