@@ -165,6 +165,8 @@ public class StockDetailActivity extends AppCompatActivity implements SeekBar.On
         //mv.setChartView(mChart); // For bounds control
         mChart.setMarker(mv); // Set the marker to the chart*/
 
+
+        //TODO: aqui debera ir la en el eje de las Y el precio mayor del historial de stocks
         setData(11, 100);
 
         // setting data
