@@ -26,8 +26,12 @@ import com.github.mikephil.charting.utils.MPPointF;
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.utils.DayAxisValueFormatter;
 import com.udacity.stockhawk.utils.MyAxisValueFormatter;
+import com.udacity.stockhawk.utils.StockPrice;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,6 +67,8 @@ public class StockDetailActivity extends AppCompatActivity implements SeekBar.On
         String quoteHistory = this.getIntent().getExtras().getString("history");
     }*/
 
+    private List<StockPrice> stockPriceList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +76,23 @@ public class StockDetailActivity extends AppCompatActivity implements SeekBar.On
         setContentView(R.layout.detail_layout);
         ButterKnife.bind(this);
         String quoteHistory = this.getIntent().getExtras().getString("history");
+        Log.i(LOG_TAG,quoteHistory);
+
+        if(quoteHistory!=null && quoteHistory != ""){
+            stockPriceList = new ArrayList<>();
+
+        }
+
+        String historyList[] = quoteHistory.split("\n");
+
+        //TODO: split the dates and prices from the historyList
+        String data[] = historyList[0].split(", ");
+        Log.i(LOG_TAG,"date = "+getDate(Long.parseLong(data[0]),"dd/MM/yyyy"));
+        data = historyList[historyList.length-1].split(", ");
+        Log.i(LOG_TAG,"date = "+getDate(Long.parseLong(data[0]),"dd/MM/yyyy"));
+        Log.i(LOG_TAG,"length "+historyList.length);
+
+
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -309,4 +332,13 @@ public class StockDetailActivity extends AppCompatActivity implements SeekBar.On
     @Override
     public void onNothingSelected() { }
 
+    public static String getDate(long milliSeconds, String dateFormat) {
+        // Create a DateFormatter object for displaying date in specified format.
+        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
+
+        // Create a calendar object that will convert the date and time value in milliseconds to date.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milliSeconds);
+        return formatter.format(calendar.getTime());
+    }
 }
