@@ -79,13 +79,14 @@ public class StockDetailActivity extends AppCompatActivity implements SeekBar.On
         String quoteHistory = this.getIntent().getExtras().getString("history");
         Log.i(LOG_TAG,quoteHistory);
 
+
         if(quoteHistory!=null && quoteHistory != ""){
             stockPriceList = new ArrayList<>();
+
 
         }
 
         String historyList[] = quoteHistory.split("\n");
-
         //TODO: split the dates and prices from the historyList
         String data[] = historyList[0].split(", ");
         Log.i(LOG_TAG,"date = "+getDate(Long.parseLong(data[0]),"dd/MM/yyyy"));
@@ -347,5 +348,18 @@ public class StockDetailActivity extends AppCompatActivity implements SeekBar.On
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(milliSeconds);
         return formatter.format(calendar.getTime());
+    }
+
+    private List<StockPrice> getStockPrices(String stockHistory[]){
+        //TODO: terminar la asignacion de los valores a sus respectivos campos en stockPrice
+        List<StockPrice> priceList = new ArrayList<>();
+        StockPrice stockPrice;
+        for (int i = 0; i < stockHistory.length ; i++) {
+            stockPrice = new StockPrice();
+            stockPrice.setDate("");
+            stockPrice.setPrice("");
+            priceList.add(stockPrice);
+        }
+        return priceList;
     }
 }
