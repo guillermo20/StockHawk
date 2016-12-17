@@ -60,13 +60,8 @@ public class StockDetailActivity extends AppCompatActivity implements SeekBar.On
 
     @BindView(R.id.tvYMax)
     TextView tvY;
-    /*@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.detail_layout);
-        ButterKnife.bind(this);
-        String quoteHistory = this.getIntent().getExtras().getString("history");
-    }*/
+
+    private float mMaxPrice;
 
     private List<StockPrice> stockPriceList;
 
@@ -78,23 +73,12 @@ public class StockDetailActivity extends AppCompatActivity implements SeekBar.On
         ButterKnife.bind(this);
         String quoteHistory = this.getIntent().getExtras().getString("history");
         Log.i(LOG_TAG,quoteHistory);
-
+        String historyList[] = quoteHistory.split("\n");
 
         if(quoteHistory!=null && quoteHistory != ""){
-            stockPriceList = new ArrayList<>();
-
+            stockPriceList = getStockPrices(historyList);
 
         }
-
-        String historyList[] = quoteHistory.split("\n");
-        //TODO: split the dates and prices from the historyList
-        String data[] = historyList[0].split(", ");
-        Log.i(LOG_TAG,"date = "+getDate(Long.parseLong(data[0]),"dd/MM/yyyy"));
-        data = historyList[historyList.length-1].split(", ");
-        Log.i(LOG_TAG,"date = "+getDate(Long.parseLong(data[0]),"dd/MM/yyyy"));
-        Log.i(LOG_TAG,"length "+historyList.length);
-
-
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -168,7 +152,7 @@ public class StockDetailActivity extends AppCompatActivity implements SeekBar.On
 
 
         //TODO: aqui debera ir la en el eje de las Y el precio mayor del historial de stocks
-        setData(11, 100);
+        setData(11, mMaxPrice);
 
         // setting data
         mSeekBarY.setProgress(50);
@@ -287,7 +271,7 @@ public class StockDetailActivity extends AppCompatActivity implements SeekBar.On
         for (int i = (int) start; i < start + count + 1; i++) {
             float mult = (range + 1);
             float val = (float) (Math.random() * mult);
-            yVals1.add(new BarEntry(i + 1f, val));
+            yVals1.add(new BarEntry(i + 1f, Float.parseFloat(stockPriceList.get(i).getPrice())));
         }
 
         BarDataSet set1;
@@ -351,13 +335,17 @@ public class StockDetailActivity extends AppCompatActivity implements SeekBar.On
     }
 
     private List<StockPrice> getStockPrices(String stockHistory[]){
-        //TODO: terminar la asignacion de los valores a sus respectivos campos en stockPrice
         List<StockPrice> priceList = new ArrayList<>();
+        mMaxPrice=0;
         StockPrice stockPrice;
         for (int i = 0; i < stockHistory.length ; i++) {
+            String price[] = stockHistory[i].split(", ");
             stockPrice = new StockPrice();
-            stockPrice.setDate("");
-            stockPrice.setPrice("");
+            if ( mMaxPrice < Float.parseFloat(price[1].trim()) ){
+                mMaxPrice = Float.parseFloat(price[1].trim());
+            }
+            stockPrice.setDate(price[0].trim());
+            stockPrice.setPrice(price[1].trim());
             priceList.add(stockPrice);
         }
         return priceList;
