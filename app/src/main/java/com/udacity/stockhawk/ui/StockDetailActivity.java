@@ -107,7 +107,7 @@ public class StockDetailActivity extends AppCompatActivity implements SeekBar.On
         mChart.setDrawGridBackground(false);
         // mChart.setDrawYLabels(false);
 
-        IAxisValueFormatter xAxisFormatter = new DayAxisValueFormatter(mChart);
+        IAxisValueFormatter xAxisFormatter = new DayAxisValueFormatter(mChart,stockPriceList);
 
         XAxis xAxis = mChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -344,7 +344,10 @@ public class StockDetailActivity extends AppCompatActivity implements SeekBar.On
             if ( mMaxPrice < Float.parseFloat(price[1].trim()) ){
                 mMaxPrice = Float.parseFloat(price[1].trim());
             }
-            stockPrice.setDate(price[0].trim());
+            stockPrice.setDate(getDate(Long.parseLong(price[0].trim()),"dd/MM/yyyy"));
+
+            //TODO: el intervalo del valor del precio del stock es semanal.
+            Log.i(LOG_TAG, "price date "+stockPrice.getDate());
             stockPrice.setPrice(price[1].trim());
             priceList.add(stockPrice);
         }

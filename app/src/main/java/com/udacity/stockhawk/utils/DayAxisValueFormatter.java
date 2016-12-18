@@ -4,6 +4,8 @@ import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
+import java.util.List;
+
 /**
  * Created by guillermo on 12/11/16.
  */
@@ -16,14 +18,18 @@ public class DayAxisValueFormatter implements IAxisValueFormatter
 
     private BarLineChartBase<?> chart;
 
-    public DayAxisValueFormatter(BarLineChartBase<?> chart) {
+    private List<StockPrice> stockPriceList;
+
+    public DayAxisValueFormatter(BarLineChartBase<?> chart,List<StockPrice> stockPriceList) {
         this.chart = chart;
+        this.stockPriceList = stockPriceList;
     }
 
     @Override
     public String getFormattedValue(float value, AxisBase axis) {
 
-        int days = (int) value;
+        int i = (int) value;
+        /*int days = (int) value;
 
         int year = determineYear(days);
 
@@ -65,7 +71,9 @@ public class DayAxisValueFormatter implements IAxisValueFormatter
             }
 
             return dayOfMonth == 0 ? "" : dayOfMonth + appendix + " " + monthName;
-        }
+        }*/
+        //return "";
+        return stockPriceList.get(i).getDate();
     }
 
     private int getDaysForMonth(int month, int year) {
