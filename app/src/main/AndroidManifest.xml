@@ -49,8 +49,17 @@
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.udacity.stockhawk.ACTION_DATA_UPDATED"/>
+                <action android:name="com.udacity.stockhawk.ACTION_DATA_UPDATED" />
             </intent-filter>
+        </receiver>
+        <receiver android:name=".widget.StockAppWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/stock_app_widget_info" />
         </receiver>
     </application>
 
