@@ -6,8 +6,8 @@
         mirroring to the layouts.
 
     * display a detail activity so the users can see the value over time of a selected stock
-       this might require the use of new library to draw graphs.
+       this might require the use of new library to draw graphs. (Done)
 
-    * use a widget to monitor the stocks
-    * fix the app crashes when user search for an unexistant stock issue.
-    * add some notification that reflects the state of the server to the user.
+    * use a widget to monitor the stocks (on development)
+    * fix the app crashes when user search for an unexistant stock issue. (Done)
+    * add some notification that reflects the state of the server to the user. (Done)
