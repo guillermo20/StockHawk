@@ -37,5 +37,7 @@
     <string name="toast_no_connectivity">Will refresh when network available.</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="fab_button_description">add a new stock to your list</string>
+    <string name="stockhawk_widget_bar_string">Stockhawk</string>
 
 </resources>
