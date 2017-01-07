@@ -36,6 +36,6 @@
             android:gravity="center"
             android:fontFamily="sans-serif-condensed"
             android:textAppearance="?android:textAppearanceLarge"
-            android:text="No server Info"/>
+            android:text="@string/no_server_info"/>
     </FrameLayout>
 </LinearLayout>
