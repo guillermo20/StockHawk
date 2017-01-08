@@ -32,6 +32,7 @@ public final class QuoteSyncJob {
 
     static final int ONE_OFF_ID = 2;
     private static final String ACTION_DATA_UPDATED = "com.udacity.stockhawk.ACTION_DATA_UPDATED";
+    public static final String ACTION_WIDGET_DATA_UPDATED = "com.udacity.stockhawk.ACTION_WIDGET_DATA_UPDATED";
     private static final int PERIOD = 300000;
     private static final int INITIAL_BACKOFF = 10000;
     private static final int PERIODIC_ID = 1;
@@ -109,6 +110,7 @@ public final class QuoteSyncJob {
                         .bulkInsert(
                                 Contract.Quote.uri,
                                 quoteCVs.toArray(new ContentValues[quoteCVs.size()]));
+                updateWidgets(context);
             }
         } catch (IOException exception) {
             Timber.e(exception, "Error fetching stock quotes");
@@ -164,5 +166,10 @@ public final class QuoteSyncJob {
         }
     }
 
-
+    private static void updateWidgets( Context context) {
+        // Setting the package ensures that only components in our app will receive the broadcast
+        Intent dataUpdatedIntent = new Intent(ACTION_WIDGET_DATA_UPDATED)
+                .setPackage(context.getPackageName());
+        context.sendBroadcast(dataUpdatedIntent);
+    }
 }

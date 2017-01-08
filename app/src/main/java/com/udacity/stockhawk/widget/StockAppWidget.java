@@ -3,12 +3,15 @@ package com.udacity.stockhawk.widget;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.app.TaskStackBuilder;
 import android.widget.RemoteViews;
 
 import com.udacity.stockhawk.R;
+import com.udacity.stockhawk.sync.QuoteSyncJob;
 import com.udacity.stockhawk.ui.MainActivity;
 import com.udacity.stockhawk.ui.StockDetailActivity;
 
@@ -62,6 +65,16 @@ public class StockAppWidget extends AppWidgetProvider {
     @Override
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
+    }
+    @Override
+    public void onReceive(@NonNull Context context, @NonNull Intent intent) {
+        super.onReceive(context, intent);
+        if (QuoteSyncJob.ACTION_WIDGET_DATA_UPDATED.equals(intent.getAction())) {
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(
+                    new ComponentName(context, getClass()));
+            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_list_view);
+        }
     }
 }
 
