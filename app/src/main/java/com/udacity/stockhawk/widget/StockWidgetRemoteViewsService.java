@@ -73,6 +73,14 @@ public class StockWidgetRemoteViewsService extends RemoteViewsService {
 
                 float rawAbsoluteChange = data.getFloat(Contract.Quote.POSITION_ABSOLUTE_CHANGE);
 
+                final Intent fillIntent = new Intent();
+                if (data!=null){
+                    data.moveToPosition(position);
+                    int historyColumn = data.getColumnIndex(Contract.Quote.COLUMN_HISTORY);
+                    String quoteHistory = data.getString(historyColumn);
+                    fillIntent.putExtra("history",quoteHistory);
+                }
+                views.setOnClickFillInIntent(R.id.item_list,fillIntent);
                 views.setTextViewText(R.id.symbol,symbol);
                 views.setTextViewText(R.id.price,dollarFormat.format(price));
 

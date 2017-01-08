@@ -5,10 +5,12 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.TaskStackBuilder;
 import android.widget.RemoteViews;
 
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.ui.MainActivity;
+import com.udacity.stockhawk.ui.StockDetailActivity;
 
 import static com.udacity.stockhawk.R.id.widget_list_view;
 
@@ -27,9 +29,17 @@ public class StockAppWidget extends AppWidgetProvider {
         Intent intent = new Intent(context, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
         views.setOnClickPendingIntent(R.id.widget,pendingIntent);
+
+        // this fills the widget layout with the data from the app.
         views.setRemoteAdapter(widget_list_view,
                 new Intent(context,
                         StockWidgetRemoteViewsService.class));
+
+        Intent clickableIntent = new Intent(context, StockDetailActivity.class);
+        PendingIntent clickablePendingIntent = TaskStackBuilder.create(context)
+                .addNextIntentWithParentStack(clickableIntent)
+                .getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setPendingIntentTemplate(R.id.widget_list_view, clickablePendingIntent);
         views.setEmptyView(R.id.widget_list_view,R.id.widget_empty);
         appWidgetManager.updateAppWidget(appWidgetId, views);
 
