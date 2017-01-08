@@ -25,10 +25,13 @@ public class StockWidgetRemoteViewsService extends RemoteViewsService {
         return new RemoteViewsFactory() {
             private Cursor data = null;
             final private DecimalFormat dollarFormat = (DecimalFormat) NumberFormat.getCurrencyInstance(Locale.US);
+            final private DecimalFormat percentageFormat = (DecimalFormat) NumberFormat.getPercentInstance(Locale.getDefault());
 
             @Override
             public void onCreate() {
-
+                percentageFormat.setMaximumFractionDigits(2);
+                percentageFormat.setMinimumFractionDigits(2);
+                percentageFormat.setPositivePrefix("+");
             }
 
             @Override
@@ -69,9 +72,8 @@ public class StockWidgetRemoteViewsService extends RemoteViewsService {
 
                 String symbol =  data.getString(Contract.Quote.POSITION_SYMBOL);
                 float price = data.getFloat(Contract.Quote.POSITION_PRICE);
-
-
                 float rawAbsoluteChange = data.getFloat(Contract.Quote.POSITION_ABSOLUTE_CHANGE);
+                float percentageChange = data.getFloat(Contract.Quote.POSITION_PERCENTAGE_CHANGE);
 
                 final Intent fillIntent = new Intent();
                 if (data!=null){
@@ -83,6 +85,14 @@ public class StockWidgetRemoteViewsService extends RemoteViewsService {
                 views.setOnClickFillInIntent(R.id.item_list,fillIntent);
                 views.setTextViewText(R.id.symbol,symbol);
                 views.setTextViewText(R.id.price,dollarFormat.format(price));
+                String percentage = percentageFormat.format(percentageChange / 100);
+                views.setTextViewText(R.id.change,percentage);
+
+                if (rawAbsoluteChange > 0) {
+                    views.setInt(R.id.change,"setBackgroundResource", R.drawable.percent_change_pill_green);
+                }else {
+                    views.setInt(R.id.change,"setBackgroundResource", R.drawable.percent_change_pill_red);
+                }
 
                 return views;
             }
